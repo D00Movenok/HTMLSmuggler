@@ -1,0 +1,8 @@
+node_modules/
+dist/
+
+# all payloads
+src/assets/*
+!src/assets/.gitkeep
+
+*.log

@@ -1,0 +1,32 @@
+{
+  "name": "html-smuggler",
+  "version": "1.0.0",
+  "description": "Payload delivery using HTML smuggling",
+  "private": true,
+  "repository": {
+    "url": "https://github.com/D00Movenok/HTMLSmuggler",
+    "type": "git"
+  },
+  "author": "Georgii Gennadev <egor.gennadjev@yandex.ru>",
+  "license": "MIT",
+  "scripts": {
+    "build": "node builder.js",
+    "lint": "eslint . --ext .js --fix --ignore-path .gitignore"
+  },
+  "devDependencies": {
+    "binary-loader": "^0.0.1",
+    "commander": "^11.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "javascript-obfuscator": "^4.0.2",
+    "prettier": "^2.8.8",
+    "webpack": "^5.88.1",
+    "webpack-obfuscator": "^3.5.1"
+  },
+  "dependencies": {
+    "fflate": "^0.8.0"
+  }
+}
