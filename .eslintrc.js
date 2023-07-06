@@ -26,8 +26,6 @@ module.exports = {
     "simple-import-sort/exports": "error",
   },
   globals: {
-    FILENAME: true,
-    CONTENTTYPE: true,
     COMPRESS: true,
   },
 };

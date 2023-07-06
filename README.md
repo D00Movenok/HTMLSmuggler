@@ -1,4 +1,4 @@
-# HTMLSmuggler
+# HTMLSmuggler ✉️
 
 HTMLSmuggler - JS payload generator for IDS bypass and payload delivery via HTML smuggling.
 
@@ -43,11 +43,15 @@ Options:
 
 ## FAQ
 
-Q: I have an error `RangeError: Maximum call stack size exceeded`, how to solve it?
-A: This [issue described here](https://github.com/javascript-obfuscator/javascript-obfuscator/issues/89). To fix it, try to disable `splitStrings` in `obfuscator.js` or make smaller payload (it's recommended to use up to 2 MB payloads because of this issue).
+**Q**: I have an error `RangeError: Maximum call stack size exceeded`, how to solve it?
 
-Q: Why does my payload build so long?
-A: The bigger payload you use, the longer it takes to create a JS file. To decrease time of build, try to disable `splitStrings` in `obfuscator.js`. Below is a table with estimated build times using default `obfuscator.js`.
+**A**: This [issue described here](https://github.com/javascript-obfuscator/javascript-obfuscator/issues/89). To fix it, try to disable `splitStrings` in `obfuscator.js` or make smaller payload (it's recommended to use up to 2 MB payloads because of this issue).
+
+---
+
+**Q**: Why does my payload build so long?
+
+**A**: The bigger payload you use, the longer it takes to create a JS file. To decrease time of build, try to disable `splitStrings` in `obfuscator.js`. Below is a table with estimated build times using default `obfuscator.js`.
 
 | Payload size | Build time |
 | --- | --- |

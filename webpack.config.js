@@ -18,6 +18,17 @@ module.exports = ({ name, type, compress }) => ({
   },
   module: {
     rules: [
+      // NOTE: used because webpack.DefinePlugin globals obfuscation issues
+      {
+        test: /\.js$/,
+        loader: "string-replace-loader",
+        options: {
+          multiple: [
+            { search: "dont_remove_filename_var", replace: name },
+            { search: "dont_remove_content_type_var", replace: type },
+          ],
+        },
+      },
       {
         test: /assets\/.*/,
         use: "binary-loader",
@@ -34,8 +45,6 @@ module.exports = ({ name, type, compress }) => ({
   },
   plugins: [
     new webpack.DefinePlugin({
-      FILENAME: JSON.stringify(name),
-      CONTENTTYPE: JSON.stringify(type),
       COMPRESS: JSON.stringify(compress),
     }),
   ],
