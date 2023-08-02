@@ -3,49 +3,68 @@ const webpack = require("webpack");
 const WebpackObfuscator = require("webpack-obfuscator");
 const obfuscatorOptions = require("./obfuscator");
 
-module.exports = ({ name, type, compress }) => ({
-  mode: "production",
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000,
-  },
-  entry: "./src/index.js",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "index.js",
-    libraryTarget: "window",
-  },
-  module: {
-    rules: [
-      // NOTE: used because webpack.DefinePlugin globals obfuscation issues
-      {
-        test: /\.js$/,
-        loader: "string-replace-loader",
-        options: {
-          multiple: [
-            { search: "dont_remove_filename_var", replace: name },
-            { search: "dont_remove_content_type_var", replace: type },
-          ],
+module.exports = ({ name, type, compress }) => {
+  const commonConfig = {
+    mode: "production",
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000,
+    },
+    entry: "./src/index.js",
+    module: {
+      rules: [
+        // NOTE: used because webpack.DefinePlugin globals obfuscation issues
+        {
+          test: /\.js$/,
+          loader: "string-replace-loader",
+          options: {
+            multiple: [
+              { search: "dont_remove_filename_var", replace: name },
+              { search: "dont_remove_content_type_var", replace: type },
+            ],
+          },
         },
-      },
-      {
-        test: /assets\/.*/,
-        use: "binary-loader",
-      },
-      {
-        test: /.*/,
-        enforce: "post",
-        use: {
-          loader: WebpackObfuscator.loader,
-          options: obfuscatorOptions,
+        {
+          test: /assets\/.*/,
+          use: "binary-loader",
         },
-      },
+        {
+          test: /.*/,
+          enforce: "post",
+          use: {
+            loader: WebpackObfuscator.loader,
+            options: obfuscatorOptions,
+          },
+        },
+      ],
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        COMPRESS: JSON.stringify(compress),
+      }),
     ],
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      COMPRESS: JSON.stringify(compress),
-    }),
-  ],
-});
+  };
+
+  return [
+    {
+      output: {
+        path: path.resolve(__dirname, "dist"),
+        filename: "payload.umd.js",
+        libraryTarget: "umd",
+      },
+      ...commonConfig,
+    },
+    {
+      output: {
+        path: path.resolve(__dirname, "dist"),
+        filename: "payload.esm.js",
+        libraryTarget: "module",
+      },
+      experiments: {
+        outputModule: true,
+      },
+      ...commonConfig,
+    },
+  ];
+};

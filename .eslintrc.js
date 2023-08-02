@@ -25,6 +25,7 @@ module.exports = {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
   },
+  ignorePatterns: ["examples/**/payload.*.js"],
   globals: {
     COMPRESS: true,
   },

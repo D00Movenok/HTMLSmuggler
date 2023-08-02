@@ -1,3 +1,5 @@
+// Obfuscator doc:
+// https://github.com/javascript-obfuscator/javascript-obfuscator#javascript-obfuscator-options
 module.exports = {
   compact: true,
   controlFlowFlattening: true,
@@ -8,6 +10,8 @@ module.exports = {
   debugProtection: true,
   debugProtectionInterval: 4000,
   disableConsoleOutput: true,
+  // NOTE: add domains to work only specified domains
+  // e.g. example.com, sub.example.com
   domainLock: [],
   domainLockRedirectUrl: "about:blank",
   forceTransformStrings: [],
