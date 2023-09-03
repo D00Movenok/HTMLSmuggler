@@ -4,6 +4,8 @@ HTMLSmuggler - JS payload generator for IDS bypass and payload delivery via HTML
 
 ## Description
 
+The full explanation what is HTML Smuggling may be found [here](https://outflank.nl/blog/2018/08/14/html-smuggling-explained/).
+
 The primary objective of HTML smuggling is to bypass network security controls, such as firewalls and intrusion detection systems, by disguising malicious payloads within seemingly harmless HTML and JavaScript code. By exploiting the dynamic nature of web applications, attackers can deliver malicious content to a user's browser without triggering security alerts or being detected by traditional security mechanisms. Thanks to this technique, the download of a malicious file is not displayed in any way in modern IDS solutions.
 
 The main goal of HTMLSmuggler tool is creating an independent javascript library with embedded malicious user-defined payload. This library may be integrated into your phishing sites/email html attachments/etc. to bypass IDS and IPS system and deliver embedded payload to the target user system. An example of created javascript library may be found [here](examples/html/payload.umd.js).
