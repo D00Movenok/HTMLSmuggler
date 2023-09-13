@@ -20,6 +20,7 @@ program
     "Contet-Type of downlonaded file",
     "application/octet-stream"
   )
+  .option("-f, --function <string>", "Name of exported function", "download")
   .option("-c, --compress", "Enable payload compression (gzip)");
 
 program.parse();
@@ -42,8 +43,9 @@ fs.readFile(program.opts().payload, { encoding: "utf8" }, (err, data) => {
 
     const compiler = webpack(
       webpackConfig({
-        type: program.opts().type,
-        name: program.opts().name,
+        filetype: program.opts().type,
+        filename: program.opts().name,
+        funcname: program.opts().function,
         compress: program.opts().compress,
       })
     );

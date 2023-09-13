@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const WebpackObfuscator = require("webpack-obfuscator");
 const obfuscatorOptions = require("./obfuscator");
 
-module.exports = ({ name, type, compress }) => {
+module.exports = ({ filename, filetype, funcname, compress }) => {
   const commonConfig = {
     mode: "production",
     performance: {
@@ -20,8 +20,9 @@ module.exports = ({ name, type, compress }) => {
           loader: "string-replace-loader",
           options: {
             multiple: [
-              { search: "dont_remove_filename_var", replace: name },
-              { search: "dont_remove_content_type_var", replace: type },
+              { search: "dont_remove_filename_var", replace: filename },
+              { search: "dont_remove_content_type_var", replace: filetype },
+              { search: "dontRemoveFunctionName", replace: funcname },
             ],
           },
         },

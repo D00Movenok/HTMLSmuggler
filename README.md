@@ -1,5 +1,7 @@
 # HTMLSmuggler ✉️
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 HTMLSmuggler - JS payload generator for IDS bypass and payload delivery via HTML smuggling.
 
 ## Description
@@ -33,11 +35,12 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
 
     ```text
     Options:
-      -p, --payload <string>  Path to payload file you want to smuggle
-      -n, --name <string>     Name of file, that would be downloaded
-      -c, --compress          Enable payload compression (gzip)
-      -t, --type <string>     Contet-Type of downlonaded file (default: "application/octet-stream")
-      -h, --help              Display help for command
+      -p, --payload <string>   Path to payload file you want to smuggle
+      -n, --name <string>      Name of file, that would be downloaded
+      -t, --type <string>      Contet-Type of downlonaded file (default: "application/octet-stream")
+      -f, --function <string>  Name of exported function (default: "download")
+      -c, --compress           Enable payload compression (gzip)
+      -h, --help               display help for command
     ```
 
 ## Usage
@@ -51,7 +54,7 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
     yarn build -p /path/to/payload -n file.exe -t "application/octet-stream" -c
     ```
 
-3. Get your payload from `dist/payload.esm.js` or `dist/payload.umd.js`. After that, it may be inserted into your page and called with `download()` function.
+3. Get your payload from `dist/payload.esm.js` or `dist/payload.umd.js`. After that, it may be inserted into your page and called with `download()` (or custom specified with `-f` flag) function.
 
 > `payload.esm.js` is used in `import { download } from 'payload.esm';` imports (ECMAScript standart).
 >
