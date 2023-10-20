@@ -30,12 +30,13 @@ console.log("Using filename:", program.opts().name);
 console.log("Using Content-Type:", program.opts().type);
 
 const dst = "src/assets/payload.bin";
-fs.readFile(program.opts().payload, { encoding: "utf8" }, (err, data) => {
+fs.readFile(program.opts().payload, { encoding: "latin1" }, (err, data) => {
   if (err) throw err;
 
+  const aData = fflate.strToU8(data, true);
   const payload = program.opts().compress
-    ? fflate.compressSync(fflate.strToU8(data), { level: 9, mem: 12 })
-    : data;
+    ? fflate.compressSync(aData, { level: 9, mem: 12 })
+    : aData;
   console.log("Payload size:", payload.length);
 
   fs.writeFile(dst, payload, { flag: "w+" }, (err2) => {
