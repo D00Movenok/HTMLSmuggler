@@ -26,7 +26,8 @@ module.exports = {
   renameGlobals: false,
   renameProperties: true,
   renamePropertiesMode: "safe",
-  reservedNames: [],
+  // NOTE: dirty fix to make BotD work with obfuscator
+  reservedNames: ["sent", "trys"],
   reservedStrings: [],
   seed: 0,
   selfDefending: true,

@@ -14,7 +14,8 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
 
 ## Features
 
-* Built-in highly configurable JavaScript obfuscator that fully hides your payload.
+* Built-in highly configurable JavaScript obfuscator that fully hides your payload makes it impossible to extract your payload from javascript manually.
+* Powerful client-side bots and headless crawlers detection library that doesn't share your payloads with smart secure mail gateways and their friends.
 * May be used both as an independent JS library or embedded in JS frameworks such as React, Vue.js, etc.
 * The simplicity of the template allows you to add extra data handlers/compressions/obfuscations.
 
@@ -40,6 +41,7 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
       -t, --type <string>      Contet-Type of downlonaded file (default: "application/octet-stream")
       -f, --function <string>  Name of exported function (default: "download")
       -c, --compress           Enable payload compression (gzip)
+      -a, --antibot            Enable bot detection and block them (recommended)
       -h, --help               display help for command
     ```
 
@@ -47,18 +49,20 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
 
 ### Preparation steps
 
-1. Modify (or use my) [javascript-obfuscator options](https://github.com/javascript-obfuscator/javascript-obfuscator#javascript-obfuscator-options) in `obfuscator.js`, my preset is nice, but very slow.
+1. **(Optional)** Modify [javascript-obfuscator options](https://github.com/javascript-obfuscator/javascript-obfuscator#javascript-obfuscator-options) in `obfuscator.js`, my preset is nice, but very slow.
 2. Compile your javascript payload:
 
+    > ⚠️ AVOID USAGE OF PAYLOADS BIGGER THAN 3 MiB (see [FAQ](#faq))
+
     ```bash
-    yarn build -p /path/to/payload -n file.exe -t "application/octet-stream" -c
+    yarn build -p /path/to/payload -n file.exe -t "application/octet-stream" -c -a
     ```
 
 3. Get your payload from `dist/payload.esm.js` or `dist/payload.umd.js`. After that, it may be inserted into your page and called with `download()` (or custom specified with `-f` flag) function.
 
-> `payload.esm.js` is used in `import { download } from 'payload.esm';` imports (ECMAScript standart).
->
-> `payload.umd.js` is used in html script SRC and `require('payload.umd');` imports (CommonJS, AMD and pure html).
+    > `payload.esm.js` is used in `import { download } from 'payload.esm';` imports (ECMAScript standart).
+    >
+    > `payload.umd.js` is used in html script SRC and `require('payload.umd');` imports (CommonJS, AMD and pure html).
 
 ### Pure HTML example
 

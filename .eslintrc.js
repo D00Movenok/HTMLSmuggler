@@ -27,6 +27,7 @@ module.exports = {
   },
   ignorePatterns: ["examples/**/payload.*.js"],
   globals: {
-    COMPRESS: true,
+    CONFIG_COMPRESS: true,
+    CONFIG_ANTIBOT: true,
   },
 };

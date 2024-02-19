@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const WebpackObfuscator = require("webpack-obfuscator");
 const obfuscatorOptions = require("./obfuscator");
 
-module.exports = ({ filename, filetype, funcname, compress }) => {
+module.exports = ({ filename, filetype, funcname, compress, antibot }) => {
   const commonConfig = {
     mode: "production",
     performance: {
@@ -14,15 +14,16 @@ module.exports = ({ filename, filetype, funcname, compress }) => {
     entry: "./src/index.js",
     module: {
       rules: [
-        // NOTE: used because webpack.DefinePlugin globals obfuscation issues
+        // NOTE: Defines string names,
+        // used because webpack.DefinePlugin globals obfuscation issues.
         {
           test: /\.js$/,
           loader: "string-replace-loader",
           options: {
             multiple: [
-              { search: "dont_remove_filename_var", replace: filename },
-              { search: "dont_remove_content_type_var", replace: filetype },
-              { search: "dontRemoveFunctionName", replace: funcname },
+              { search: "dont_change_filename_var", replace: filename },
+              { search: "dont_change_content_type_var", replace: filetype },
+              { search: "dontChangeFunctionName", replace: funcname },
             ],
           },
         },
@@ -41,8 +42,10 @@ module.exports = ({ filename, filetype, funcname, compress }) => {
       ],
     },
     plugins: [
+      // NOTE: Defines boolean globals to change execution flow.
       new webpack.DefinePlugin({
-        COMPRESS: JSON.stringify(compress),
+        CONFIG_COMPRESS: JSON.stringify(compress),
+        CONFIG_ANTIBOT: JSON.stringify(antibot),
       }),
     ],
   };
