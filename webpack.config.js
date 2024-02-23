@@ -3,7 +3,14 @@ const webpack = require("webpack");
 const WebpackObfuscator = require("webpack-obfuscator");
 const obfuscatorOptions = require("./obfuscator");
 
-module.exports = ({ filename, filetype, funcname, compress, antibot }) => {
+module.exports = ({
+  filename,
+  filetype,
+  funcname,
+  compress,
+  antibot,
+  delay,
+}) => {
   const commonConfig = {
     mode: "production",
     performance: {
@@ -46,6 +53,7 @@ module.exports = ({ filename, filetype, funcname, compress, antibot }) => {
       new webpack.DefinePlugin({
         CONFIG_COMPRESS: JSON.stringify(compress),
         CONFIG_ANTIBOT: JSON.stringify(antibot),
+        CONFIG_DELAY: JSON.stringify(delay),
       }),
     ],
   };

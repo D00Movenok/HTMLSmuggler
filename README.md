@@ -8,14 +8,15 @@ HTMLSmuggler - JS payload generator for IDS bypass and payload delivery via HTML
 
 The full explanation what is HTML Smuggling may be found [here](https://outflank.nl/blog/2018/08/14/html-smuggling-explained/).
 
-The primary objective of HTML smuggling is to bypass network security controls, such as firewalls and intrusion detection systems, by disguising malicious payloads within seemingly harmless HTML and JavaScript code. By exploiting the dynamic nature of web applications, attackers can deliver malicious content to a user's browser without triggering security alerts or being detected by traditional security mechanisms. Thanks to this technique, the download of a malicious file is not displayed in any way in modern IDS solutions.
+The primary objective of HTML smuggling is to bypass network security controls, such as firewalls and intrusion detection systems, by disguising malicious payloads (e.g. executables/archives/etc.) within seemingly harmless HTML and JavaScript code. By exploiting the dynamic nature of web applications, attackers can deliver malicious content to a user's browser without triggering security alerts or being detected by traditional security mechanisms. Thanks to this technique, the download of a malicious file is not displayed in any way in modern IDS solutions.
 
-The main goal of HTMLSmuggler tool is creating an independent javascript library with embedded malicious user-defined payload. This library may be integrated into your phishing sites/email html attachments/etc. to bypass IDS and IPS system and deliver embedded payload to the target user system. An example of created javascript library may be found [here](examples/html/payload.umd.js).
+The main goal of HTMLSmuggler tool is creating an independent javascript library with embedded malicious user-defined payload. This library may be integrated into your phishing sites/email html attachments/etc. to deliver embedded payload to the target user system (bypassing IDS and IPS system). An example of created javascript library may be found [here](examples/html/payload.umd.js).
 
 ## Features
 
 * Built-in highly configurable JavaScript obfuscator that fully hides your payload makes it impossible to extract your payload from javascript manually.
 * Powerful client-side bots and headless crawlers detection library that doesn't share your payloads with smart secure mail gateways and their friends.
+* Delay before loading to avoid sandboxes that are in a hurry.
 * May be used both as an independent JS library or embedded in JS frameworks such as React, Vue.js, etc.
 * The simplicity of the template allows you to add extra data handlers/compressions/obfuscations.
 
@@ -41,6 +42,7 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
       -t, --type <string>      Contet-Type of downlonaded file (default: "application/octet-stream")
       -f, --function <string>  Name of exported function (default: "download")
       -c, --compress           Enable payload compression (gzip)
+      -d, --delay <number>     Delay before antibot and download in ms (default: 0)
       -a, --antibot            Enable bot detection and block them (recommended)
       -h, --help               display help for command
     ```
@@ -55,7 +57,7 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
     > ⚠️ AVOID USAGE OF PAYLOADS BIGGER THAN 3 MiB (see [FAQ](#faq))
 
     ```bash
-    yarn build -p /path/to/payload -n file.exe -t "application/octet-stream" -c -a
+    yarn build -p /path/to/payload -n file.exe -t "application/octet-stream" -c -a -d 3000
     ```
 
 3. Get your payload from `dist/payload.esm.js` or `dist/payload.umd.js`. After that, it may be inserted into your page and called with `download()` (or custom specified with `-f` flag) function.

@@ -22,6 +22,7 @@ program
   )
   .option("-f, --function <string>", "Name of exported function", "download")
   .option("-c, --compress", "Enable payload compression (gzip)")
+  .option("-d, --delay <number>", "Delay before antibot and download (ms)", 0)
   .option("-a, --antibot", "Enable bot detection and block them (recommended)");
 
 program.parse();
@@ -31,6 +32,7 @@ console.log("Using filename:", program.opts().name);
 console.log("Using Content-Type:", program.opts().type);
 console.log("Exported function:", program.opts().function);
 console.log("Compression:", program.opts().compress);
+console.log("Delay:", program.opts().delay, "ms");
 console.log("Antibot:", program.opts().antibot);
 
 const dst = "src/assets/payload.bin";
@@ -53,6 +55,7 @@ fs.readFile(program.opts().payload, { encoding: "latin1" }, (err, data) => {
         funcname: program.opts().function,
         compress: program.opts().compress,
         antibot: program.opts().antibot,
+        delay: program.opts().delay,
       })
     );
     compiler.run((err3, stats) => {

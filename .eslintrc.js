@@ -29,5 +29,6 @@ module.exports = {
   globals: {
     CONFIG_COMPRESS: true,
     CONFIG_ANTIBOT: true,
+    CONFIG_DELAY: true,
   },
 };
