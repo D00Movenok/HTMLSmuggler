@@ -19,6 +19,7 @@ The main goal of HTMLSmuggler tool is creating an independent javascript library
 * Delay before loading to avoid sandboxes that are in a hurry.
 * May be used both as an independent JS library or embedded in JS frameworks such as React, Vue.js, etc.
 * The simplicity of the template allows you to add extra data handlers/compressions/obfuscations.
+* Support a lot of browsers (including old IE10).
 
 ## Installation
 
